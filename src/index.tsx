@@ -1,23 +1,31 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 
 import ThemeProvider from 'react-bootstrap/ThemeProvider'
 // import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+// const root = ReactDOM.createRoot(
+//   document.getElementById('root') as HTMLElement
+// );
 
-root.render(
-  <ThemeProvider
-    breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
-    minBreakpoint="xxs"
-  >
-    <App />
-  </ThemeProvider>
-);
+// root.render(
+//   <ThemeProvider
+//     breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
+//     minBreakpoint="xxs"
+//   >
+//     <App />
+//   </ThemeProvider>
+// );
+
+ReactDOM.render(<ThemeProvider
+  breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
+  minBreakpoint="xxs"
+>
+  <App />
+</ThemeProvider>
+,document.getElementById('root'));
 
 // <React.StrictMode>
 //   <App />

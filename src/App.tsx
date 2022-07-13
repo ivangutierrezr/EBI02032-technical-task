@@ -1,25 +1,30 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+
+//Main App Styles
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+// Views
+import HomeView from './views/homeView/HomeView';
+import DataView from './views/dataView/DataView';
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomeView />} />
+        <Route path="*" element={<HomeView />} />
+        <Route path="/data" element={<DataView />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
