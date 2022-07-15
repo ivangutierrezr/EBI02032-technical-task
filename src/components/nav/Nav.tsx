@@ -7,14 +7,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import './Nav.css';
 
 const NavEBI = () => {
-
     var currentView: string = window.location.pathname;
-    console.log(currentView);
-
     const [activeKey, setActiveKey] = React.useState(currentView);
-
-    // currentView = currentView.replace("")
-
 
     return (
         <>
@@ -28,7 +22,7 @@ const NavEBI = () => {
                                 <Nav.Link onClick={() => setActiveKey("home")} eventKey="/" href="/">Home</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link onClick={() => setActiveKey("data")} eventKey="/data" href="/data">Data Viewer</Nav.Link>
+                                <Nav.Link onClick={() => setActiveKey("data")} eventKey="/data" href="/data">Heat map</Nav.Link>
                             </Nav.Item>
                         </Nav>
                     </Navbar.Collapse>

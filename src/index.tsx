@@ -19,13 +19,17 @@ import ThemeProvider from 'react-bootstrap/ThemeProvider'
 //   </ThemeProvider>
 // );
 
-ReactDOM.render(<ThemeProvider
-  breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
-  minBreakpoint="xxs"
->
-  <App />
-</ThemeProvider>
-,document.getElementById('root'));
+const rootElement = document.getElementById("root");
+
+ReactDOM.render(
+  <ThemeProvider
+    breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
+    minBreakpoint="xxs"
+  >
+    <App />
+  </ThemeProvider>, 
+  rootElement
+);
 
 // <React.StrictMode>
 //   <App />
