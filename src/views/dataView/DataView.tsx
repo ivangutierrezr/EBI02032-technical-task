@@ -3,13 +3,13 @@ import DataInit from '../../components/dataInit/DataInit';
 import NavEBI from '../../components/nav/Nav';
 
 import { DataObject, HeatMapItem, HeatMapGeneItem } from '../../helpers/interfaces'
-import { buildHeatMapData, getMaxValue, getMinValue } from '../../helpers/helpers'
+import { buildHeatMapData, buildDiagnosisHeaders, getMaxValue, getMinValue } from '../../helpers/helpers'
 
 export default class DataView extends Component {
     state = {
         fullDataSet: [],
         orderedDataSet: [],
-        diagnosisInfo: [],
+        diagnosisHeaders: [],
         genesFilter: [],
         diagnosisFilter: [],
         heatMapData: [],
@@ -62,18 +62,18 @@ export default class DataView extends Component {
         let orderedDataSet: Array<DataObject> = new Array<DataObject>();
         let genesFilter: Array<String> = new Array<String>();
         let diagnosisFilter: Array<String> = new Array<String>();
-        let diagnosisInfo: Array<DataObject> = new Array<String>();
+        
         for (let i = 0; i < fullDataSet.length; i++) {
             const tmpData = fullDataSet[i];
-            let indexGeneFilter = genesFilter.findIndex((tmpG: String) => tmpG == tmpData["gene_symbol"]);
+            let indexGeneFilter: number = genesFilter.findIndex((tmpG: String) => tmpG == tmpData["gene_symbol"]);
             if (indexGeneFilter == -1) {
-                genesFilter.push(tmpData["gene_symbol"])
+                genesFilter.push(tmpData["gene_symbol"]);
             }
-            let indexDiagnosisFilter = diagnosisFilter.findIndex((tmpD: String) => tmpD == tmpData["diagnosis"]);
+            let indexDiagnosisFilter: number = diagnosisFilter.findIndex((tmpD: String) => tmpD == tmpData["diagnosis"]);
             if (indexDiagnosisFilter == -1) {
-                diagnosisFilter.push(tmpData["diagnosis"])
+                diagnosisFilter.push(tmpData["diagnosis"]);
             }
-            let indexData = orderedDataSet.findIndex((tmpD: DataObject) => tmpD["gene_symbol"] == tmpData["gene_symbol"]);
+            let indexData: number = orderedDataSet.findIndex((tmpD: DataObject) => tmpD["gene_symbol"] == tmpData["gene_symbol"]);
             let objModel: DataObject = {
                 "model_id": tmpData["model_id"],
                 "z_score": tmpData["z_score"],
@@ -94,7 +94,7 @@ export default class DataView extends Component {
                 objData["diagnoses"] = diagnoses;
                 orderedDataSet.push(objData);
             } else {
-                let indexDiagnosis = orderedDataSet[indexData]["diagnoses"].findIndex((diagnosis: DataObject) => diagnosis["diagnosis"] == tmpData["diagnosis"]);
+                let indexDiagnosis: number = orderedDataSet[indexData]["diagnoses"].findIndex((diagnosis: DataObject) => diagnosis["diagnosis"] == tmpData["diagnosis"]);
                 if (indexDiagnosis == -1) {
                     let objDiagnosis: DataObject = {};
                     objDiagnosis["diagnosis"] = tmpData["diagnosis"];
@@ -116,17 +116,19 @@ export default class DataView extends Component {
         this.setState({
             orderedDataSet: orderedDataSet,
             genesFilter: genesFilter,
-            diagnosisFilter: diagnosisFilter
+            diagnosisFilter: diagnosisFilter            
         })
         this.buildDataHeatMap(orderedDataSet)
     }
 
     buildDataHeatMap = (orderedDataSet: Array<DataObject>) => {
         let heatMapData: Array<HeatMapItem> = buildHeatMapData(orderedDataSet);
+        let diagnosisHeaders: Array<DataObject> = buildDiagnosisHeaders(orderedDataSet);
         let minValue: number = getMaxValue(heatMapData);
         let maxValue: number = getMinValue(heatMapData);
         this.setState({
             heatMapData: heatMapData,
+            diagnosisHeaders: diagnosisHeaders,
             minValue: minValue,
             maxValue: maxValue,
             componentReady: true
@@ -142,7 +144,7 @@ export default class DataView extends Component {
             <div>
                 <NavEBI />
                 {
-                    this.state.componentReady && <DataInit fullDataSet={this.state.fullDataSet} orderedDataSet={this.state.orderedDataSet} genesFilter={this.state.genesFilter} diagnosisFilter={this.state.diagnosisFilter} heatMapData={this.state.heatMapData} minValue={this.state.minValue} maxValue={this.state.maxValue} applyFilters={this.applyFilters}/>
+                    this.state.componentReady && <DataInit fullDataSet={this.state.fullDataSet} orderedDataSet={this.state.orderedDataSet} genesFilter={this.state.genesFilter} diagnosisFilter={this.state.diagnosisFilter} diagnosisHeaders={this.state.diagnosisHeaders} heatMapData={this.state.heatMapData} minValue={this.state.minValue} maxValue={this.state.maxValue} applyFilters={this.applyFilters}/>
                 }
             </div>
         )

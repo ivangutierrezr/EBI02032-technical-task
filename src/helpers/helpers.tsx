@@ -29,8 +29,24 @@ export function buildHeatMapData(orderedDataSet: Array<DataObject>) {
         };
         dataHeatMap.push(objGene);
     }
-    // setHeatMapData(dataHeatMap);
     return dataHeatMap;
+}
+
+export function buildDiagnosisHeaders(orderedDataSet: Array<DataObject>) {
+    let diagnosisHeaders: Array<DataObject> = new Array<String>();
+    const dataSetItem = orderedDataSet[0];
+    for (let j = 0; j < dataSetItem["diagnoses"].length; j++) {
+        const diagnosis = dataSetItem["diagnoses"][j];
+        let indexDiagnosisFilter: number = diagnosisHeaders.findIndex((tmpD: DataObject) => tmpD["diagnosis"] == diagnosis["diagnosis"]);
+        if (indexDiagnosisFilter == -1) {
+            let objDiagnosisHeaders: DataObject = {};
+            objDiagnosisHeaders["diagnosis"] = diagnosis["diagnosis"];
+            let modelsDiagnosis: number = diagnosis["models"].length;
+            objDiagnosisHeaders["numberModels"] = modelsDiagnosis;
+            diagnosisHeaders.push(objDiagnosisHeaders)
+        }
+    }
+    return diagnosisHeaders;
 }
 
 export function getMaxValue(heatMapData: Array<HeatMapItem>) {

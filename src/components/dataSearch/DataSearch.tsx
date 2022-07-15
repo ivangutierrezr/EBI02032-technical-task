@@ -10,9 +10,6 @@ import './DataSearch.css'
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 const DataSearch = (props: { applyFilters: Function, genesFilter: Array<String>, diagnosisFilter: Array<String> }) => {
-    
-    // interface Option = new Array(String);
-
     const [optionGenes, setOptionGenes] = React.useState([]);
     const [optionDiagnosis, setOptionDiagnosis] = React.useState([]);
     const [optionGenesArray, setOptionGenesArray] = React.useState(props.genesFilter);
