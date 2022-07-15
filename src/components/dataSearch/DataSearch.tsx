@@ -4,7 +4,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import {Typeahead, } from 'react-bootstrap-typeahead';
+import { Typeahead } from 'react-bootstrap-typeahead';
+import RangeSlider from 'react-bootstrap-range-slider';
 
 import './DataSearch.css'
 import 'react-bootstrap-typeahead/css/Typeahead.css';
@@ -14,19 +15,27 @@ const DataSearch = (props: { applyFilters: Function, genesFilter: Array<String>,
     const [optionDiagnosis, setOptionDiagnosis] = React.useState([]);
     const [optionGenesArray, setOptionGenesArray] = React.useState(props.genesFilter);
     const [optionDiagnosisArray, setOptionDiagnosisArray] = React.useState(props.diagnosisFilter);
+    const [rangeFilterValue, setRangeFilterValue] = React.useState(100);
 
     let showDataGenes = (val: any) => {
-        console.log(val)
-        setOptionGenes(val)
+        setOptionGenes(val);
+        if (val.length > 0) {
+            setRangeFilterValue(100);
+        }
+        props.applyFilters(rangeFilterValue, val, optionDiagnosis)
     }
 
     let showDataDiagnosis = (val: any) => {
-        console.log(val)
-        setOptionDiagnosis(val)
+        setOptionDiagnosis(val);
+        if (val.length > 0) {
+          setRangeFilterValue(100);  
+        }
+        props.applyFilters(rangeFilterValue, optionGenes, val)
     }
 
     let showPercentile = (val: any) => {
-        console.log(val);
+        setRangeFilterValue(parseInt(val));
+        props.applyFilters(parseInt(val), optionGenes, optionDiagnosis)
     }
 
     return (
@@ -63,10 +72,16 @@ const DataSearch = (props: { applyFilters: Function, genesFilter: Array<String>,
             </Row>
             <Row>
                 <Col>
-                    <Form.Group style={{ marginTop: '20px' }}>
-                        <Form.Label>Range</Form.Label>
-                        <Form.Range 
+                    <Form.Group style={{ marginTop: '20px', marginBottom: '20px' }}>
+                        <Form.Label>Filter top {rangeFilterValue}% of the genes that have the highest expression</Form.Label>
+                        <RangeSlider
+                            value={rangeFilterValue}
+                            step={10}
                             onChange={e => showPercentile(e.target.value)}
+                            variant='info'
+                            tooltipLabel={currentValue => `${currentValue}%`}
+                            tooltip='on'
+                            disabled={(optionGenes.length > 0 || optionDiagnosis.length > 0) ? true : false}
                         />
                     </Form.Group>
                 </Col>

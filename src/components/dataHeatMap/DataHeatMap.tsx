@@ -8,12 +8,11 @@ import { DataObject, HeatMapItem } from '../../helpers/interfaces'
 import DataHeatMapHeader from '../dataHeatMapHeader/DataHeatMapHeader';
 
 const DataHeatMap = (props: { heatMapData: Array<HeatMapItem>, diagnosisHeaders: Array<DataObject>, minValue: number, maxValue: number }) => {
-    const [heatMapData, setHeatMapData] = React.useState(props.heatMapData);
     return (
-        <div className='contentHeatMap'>
+        <div className='contentHeatMap' style={{ height: `${((props.heatMapData.length * 25) < 500 ? 500 : (props.heatMapData.length * 25))}px` }}>
             <DataHeatMapHeader diagnosisHeaders={props.diagnosisHeaders} />
             <ResponsiveHeatMapCanvas 
-                data={heatMapData}
+                data={props.heatMapData}
                 margin={{ top: 30, right: 220, bottom: 60, left: 90 }}
                 valueFormat=' ^-.3~r'
                 axisTop={{

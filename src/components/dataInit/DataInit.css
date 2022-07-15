@@ -1,7 +1,7 @@
-.dataViewer {
+.dataInit {
     width: 100%;
-    height: calc(100vh - 60px);
+    height: auto;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }

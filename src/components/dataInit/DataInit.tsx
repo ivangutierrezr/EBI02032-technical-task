@@ -8,22 +8,14 @@ import './DataInit.css'
 
 import { DataObject, HeatMapItem } from '../../helpers/interfaces'
 
-const DataInit = (props: { fullDataSet: Array<DataObject>, orderedDataSet: Array<DataObject>, genesFilter: Array<String>, diagnosisFilter: Array<String>, diagnosisHeaders: Array<DataObject>,  heatMapData: Array<HeatMapItem>, minValue: number, maxValue: number, applyFilters: Function }) => {
-    
-    const [fullDataSet, setFullDataSet] = React.useState(props.fullDataSet);
-    const [orderedDataSet, setOrderedDataSet] = React.useState(props.orderedDataSet);
-    const [genesFilter, setGenesFilter] = React.useState(props.genesFilter);
-    const [diagnosisFilter, setDiagnosisFilter] = React.useState(props.diagnosisFilter);
-    const [diagnosisHeaders, setDiagnosisHeaders] = React.useState(props.diagnosisHeaders);
-    const [heatMapData, setHeatMapData] = React.useState(props.heatMapData);
-    const [minValue, setMinValue] = React.useState(props.minValue);
-    const [maxValue, setMaxValue] = React.useState(props.maxValue);
-
+const DataInit = (props: { heatMapReady: Boolean, fullDataSet: Array<DataObject>, orderedDataSet: Array<DataObject>, genesFilter: Array<String>, diagnosisFilter: Array<String>, diagnosisHeaders: Array<DataObject>,  heatMapData: Array<HeatMapItem>, minValue: number, maxValue: number, applyFilters: Function }) => {
     return (
-        <Stack className="dataViewer">
-            <h3 style={{marginTop: '30px'}}>Expression Data Heat Map</h3>
-            <DataSearch applyFilters={props.applyFilters} genesFilter={genesFilter} diagnosisFilter={diagnosisFilter} />
-            <DataHeatMap heatMapData={heatMapData} minValue={minValue} maxValue={maxValue} diagnosisHeaders={diagnosisHeaders}/>
+        <Stack className="dataInit">
+            <h3 style={{marginTop: '20px'}}>Expression Data Heat Map</h3>
+            <DataSearch applyFilters={props.applyFilters} genesFilter={props.genesFilter} diagnosisFilter={props.diagnosisFilter} />
+            {
+                props.heatMapReady && <DataHeatMap heatMapData={props.heatMapData} minValue={props.minValue} maxValue={props.maxValue} diagnosisHeaders={props.diagnosisHeaders} />
+            }
         </Stack>
     );
 }

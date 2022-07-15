@@ -24,9 +24,6 @@ const DataHeatMapHeader = (props: {diagnosisHeaders: Array<DataObject>}) => {
         "#6DFFC7"
     ])
 
-    console.log(diagnosisHeaders)
-    console.log(gridFragments);
-
     const rowStyle:Object = {
         display: 'grid',
         gridTemplateColumns: gridFragments, 

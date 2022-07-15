@@ -10,7 +10,8 @@ import {
 //Main App Styles
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import 'bootstrap/dist/css/bootstrap.css';
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 
 // Views
 import HomeView from './views/homeView/HomeView';

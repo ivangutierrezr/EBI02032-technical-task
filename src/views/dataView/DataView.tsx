@@ -15,6 +15,7 @@ export default class DataView extends Component {
         heatMapData: [],
         minValue: 0,
         maxValue: 0,
+        heatMapReady: false,
         componentReady: false
     }
 
@@ -56,6 +57,17 @@ export default class DataView extends Component {
                 }
             }
         }
+    }
+
+    sortModels = (a: DataObject, b: DataObject) => {
+        var aValue: number = parseInt(a["model_id"].substring(1));
+        var bValue: number = parseInt(b["model_id"].substring(1));
+        console.log(a["model_id"])
+        console.log(b["model_id"])
+        console.log(aValue - bValue)
+        return aValue - bValue;
+        // console.log(a["model_id"].localeCompare(b["model_id"]))
+        // return a["model_id"].localeCompare(b["model_id"]);
     }
 
     buildData = (fullDataSet: Array<DataObject>) => {
@@ -105,6 +117,8 @@ export default class DataView extends Component {
                     let indexModel = orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"].findIndex((model: DataObject) => model["model_id"] == tmpData["model_id"]);
                     if (indexModel == -1) {
                         orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"].push(objModel);
+                        orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"] = orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"].sort(this.sortModels)
+                        console.log(orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"])
                     } else {
                         orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"][indexModel]["z_score"] += tmpData["z_score"];
                         orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"][indexModel]["total_scores"] += 1;
@@ -113,17 +127,18 @@ export default class DataView extends Component {
             }
         }
 
+        console.log(orderedDataSet)
         this.setState({
             orderedDataSet: orderedDataSet,
             genesFilter: genesFilter,
             diagnosisFilter: diagnosisFilter            
         })
-        this.buildDataHeatMap(orderedDataSet)
+        this.buildDataHeatMap(orderedDataSet, 100, [], [])
     }
 
-    buildDataHeatMap = (orderedDataSet: Array<DataObject>) => {
-        let heatMapData: Array<HeatMapItem> = buildHeatMapData(orderedDataSet);
-        let diagnosisHeaders: Array<DataObject> = buildDiagnosisHeaders(orderedDataSet);
+    buildDataHeatMap = (orderedDataSet: Array<DataObject>, rangeFilterValue: any, optionGenes: any, optionDiagnosis: any) => {
+        let heatMapData: Array<HeatMapItem> = buildHeatMapData(orderedDataSet, rangeFilterValue, optionGenes, optionDiagnosis);
+        let diagnosisHeaders: Array<DataObject> = buildDiagnosisHeaders(orderedDataSet, rangeFilterValue, optionGenes, optionDiagnosis);
         let minValue: number = getMaxValue(heatMapData);
         let maxValue: number = getMinValue(heatMapData);
         this.setState({
@@ -131,20 +146,26 @@ export default class DataView extends Component {
             diagnosisHeaders: diagnosisHeaders,
             minValue: minValue,
             maxValue: maxValue,
+            heatMapReady: true,
             componentReady: true
         })
     }
 
-    applyFilters = () => {
-
+    applyFilters = (rangeFilterValue: any, optionGenes: any, optionDiagnosis: any) => {
+        this.setState({
+            heatMapReady: false
+        })
+        setTimeout(() => {
+            this.buildDataHeatMap(this.state.orderedDataSet, rangeFilterValue, optionGenes, optionDiagnosis)
+        }, 100);
     }
 
     render() {
         return (
-            <div>
+            <div style={{ height: '100%' }}>
                 <NavEBI />
                 {
-                    this.state.componentReady && <DataInit fullDataSet={this.state.fullDataSet} orderedDataSet={this.state.orderedDataSet} genesFilter={this.state.genesFilter} diagnosisFilter={this.state.diagnosisFilter} diagnosisHeaders={this.state.diagnosisHeaders} heatMapData={this.state.heatMapData} minValue={this.state.minValue} maxValue={this.state.maxValue} applyFilters={this.applyFilters}/>
+                    this.state.componentReady && <DataInit heatMapReady={this.state.heatMapReady} fullDataSet={this.state.fullDataSet} orderedDataSet={this.state.orderedDataSet} genesFilter={this.state.genesFilter} diagnosisFilter={this.state.diagnosisFilter} diagnosisHeaders={this.state.diagnosisHeaders} heatMapData={this.state.heatMapData} minValue={this.state.minValue} maxValue={this.state.maxValue} applyFilters={this.applyFilters}/>
                 }
             </div>
         )

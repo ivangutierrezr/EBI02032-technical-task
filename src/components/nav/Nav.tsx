@@ -11,24 +11,22 @@ const NavEBI = () => {
     const [activeKey, setActiveKey] = React.useState(currentView);
 
     return (
-        <>
-            <Navbar bg="light" expand="md" className='EbiNavBar'>
-                <Container fluid>
-                    <Navbar.Brand onClick={() => setActiveKey("home")} href="/">EBI02032 Technical Task</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav variant="tabs" activeKey={activeKey}>
-                            <Nav.Item>
-                                <Nav.Link onClick={() => setActiveKey("home")} eventKey="/" href="/">Home</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link onClick={() => setActiveKey("data")} eventKey="/data" href="/data">Heat map</Nav.Link>
-                            </Nav.Item>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-        </>
+        <Navbar bg="light" expand="md" className='EbiNavBar'>
+            <Container fluid>
+                <Navbar.Brand onClick={() => setActiveKey("home")} href="/">EBI02032 Technical Task</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav variant="tabs" activeKey={activeKey}>
+                        <Nav.Item>
+                            <Nav.Link onClick={() => setActiveKey("home")} eventKey="/" href="/">Home</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link onClick={() => setActiveKey("data")} eventKey="/data" href="/data">Heat map</Nav.Link>
+                        </Nav.Item>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     )
 }
 
