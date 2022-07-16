@@ -16,6 +16,7 @@ git clone https://github.com/ivangutierrezr/ebi02032-technical-task.git
 2. Go into ebi02032-technical-task folder and run this commands:
 
 npm install
+
 npm start
 
 Project must be working now.
