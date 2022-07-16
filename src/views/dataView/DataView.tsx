@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import DataInit from '../../components/dataInit/DataInit';
 import NavEBI from '../../components/nav/Nav';
 
-import { DataObject, HeatMapItem, HeatMapGeneItem } from '../../helpers/interfaces'
+import { DataObject, HeatMapItem } from '../../helpers/interfaces'
 import { buildHeatMapData, buildDiagnosisHeaders, getMaxValue, getMinValue } from '../../helpers/helpers'
 
 export default class DataView extends Component {
@@ -28,7 +28,7 @@ export default class DataView extends Component {
         request.onreadystatechange = function () {
             if (request.readyState === 4 && request.status === 200) {
                 var typeOfRequest = request.getResponseHeader('Content-Type');
-                if (typeOfRequest != null) {
+                if (typeOfRequest !== null) {
                     if (typeOfRequest.indexOf("text") !== 1) {
                         if (typeOfRequest.indexOf("text") !== 1) {
                             let tsv = request.responseText;
@@ -39,7 +39,7 @@ export default class DataView extends Component {
                                 let objData: DataObject = {};
                                 const currentline = lines[i].split("\t");
                                 for (let j = 0; j < headers.length; j++) {
-                                    if (headers[j] == "z_score") {
+                                    if (headers[j] === "z_score") {
                                         objData[headers[j]] = parseFloat(currentline[j]);
                                     } else {
                                         objData[headers[j]] = currentline[j];
@@ -72,15 +72,15 @@ export default class DataView extends Component {
         
         for (let i = 0; i < fullDataSet.length; i++) {
             const tmpData = fullDataSet[i];
-            let indexGeneFilter: number = genesFilter.findIndex((tmpG: String) => tmpG == tmpData["gene_symbol"]);
-            if (indexGeneFilter == -1) {
+            let indexGeneFilter: number = genesFilter.findIndex((tmpG: String) => tmpG === tmpData["gene_symbol"]);
+            if (indexGeneFilter === -1) {
                 genesFilter.push(tmpData["gene_symbol"]);
             }
-            let indexDiagnosisFilter: number = diagnosisFilter.findIndex((tmpD: String) => tmpD == tmpData["diagnosis"]);
-            if (indexDiagnosisFilter == -1) {
+            let indexDiagnosisFilter: number = diagnosisFilter.findIndex((tmpD: String) => tmpD === tmpData["diagnosis"]);
+            if (indexDiagnosisFilter === -1) {
                 diagnosisFilter.push(tmpData["diagnosis"]);
             }
-            let indexData: number = orderedDataSet.findIndex((tmpD: DataObject) => tmpD["gene_symbol"] == tmpData["gene_symbol"]);
+            let indexData: number = orderedDataSet.findIndex((tmpD: DataObject) => tmpD["gene_symbol"] === tmpData["gene_symbol"]);
             let objModel: DataObject = {
                 "model_id": tmpData["model_id"],
                 "z_score": tmpData["z_score"],
@@ -101,16 +101,16 @@ export default class DataView extends Component {
                 objData["diagnoses"] = diagnoses;
                 orderedDataSet.push(objData);
             } else {
-                let indexDiagnosis: number = orderedDataSet[indexData]["diagnoses"].findIndex((diagnosis: DataObject) => diagnosis["diagnosis"] == tmpData["diagnosis"]);
-                if (indexDiagnosis == -1) {
+                let indexDiagnosis: number = orderedDataSet[indexData]["diagnoses"].findIndex((diagnosis: DataObject) => diagnosis["diagnosis"] === tmpData["diagnosis"]);
+                if (indexDiagnosis === -1) {
                     let objDiagnosis: DataObject = {};
                     objDiagnosis["diagnosis"] = tmpData["diagnosis"];
                     let models: Array<DataObject> = [objModel];
                     objDiagnosis["models"] = models;
                     orderedDataSet[indexData]["diagnoses"].push(objDiagnosis)
                 } else {
-                    let indexModel = orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"].findIndex((model: DataObject) => model["model_id"] == tmpData["model_id"]);
-                    if (indexModel == -1) {
+                    let indexModel = orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"].findIndex((model: DataObject) => model["model_id"] === tmpData["model_id"]);
+                    if (indexModel === -1) {
                         orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"].push(objModel);
                         orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"] = orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"].sort(this.sortModels)
                         console.log(orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"])

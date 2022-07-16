@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import RangeSlider from 'react-bootstrap-range-slider';
 
@@ -13,8 +14,6 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 const DataSearch = (props: { applyFilters: Function, genesFilter: Array<String>, diagnosisFilter: Array<String> }) => {
     const [optionGenes, setOptionGenes] = React.useState([]);
     const [optionDiagnosis, setOptionDiagnosis] = React.useState([]);
-    const [optionGenesArray, setOptionGenesArray] = React.useState(props.genesFilter);
-    const [optionDiagnosisArray, setOptionDiagnosisArray] = React.useState(props.diagnosisFilter);
     const [rangeFilterValue, setRangeFilterValue] = React.useState(100);
 
     let showDataGenes = (val: any) => {
@@ -42,31 +41,33 @@ const DataSearch = (props: { applyFilters: Function, genesFilter: Array<String>,
         <Container className='dataSearchContainer'>
             <Row>
                 <Col>
-                    <Form.Group style={{ marginTop: '20px' }}>
+                    <Form.Group>
                         <Form.Label>Filter by genes</Form.Label>
                         <Typeahead
                             labelKey='genesFilter'
                             id='genesFilter'
                             multiple
-                            options={optionGenesArray}
+                            options={props.genesFilter}
                             onChange={e => showDataGenes(e)}
                             placeholder="Select list of genes"
                             selected={optionGenes}
                         />
+                        <Button style={{ marginTop: "10px" }} variant="outline-secondary" onClick={() => showDataGenes([])} >Clear</Button>
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group style={{ marginTop: '20px' }}>
+                    <Form.Group>
                         <Form.Label>Filter by diagnosis</Form.Label>
                         <Typeahead
                             labelKey='diagnosisFilter'
                             id='diagnosisFilter'
                             multiple
-                            options={optionDiagnosisArray}
+                            options={props.diagnosisFilter}
                             onChange={e => showDataDiagnosis(e)}
                             placeholder="Select list of diagnosis"
                             selected={optionDiagnosis}
                         />
+                        <Button style={{marginTop: "10px"}} variant="outline-secondary" onClick={() => showDataDiagnosis([])} >Clear</Button>
                     </Form.Group>
                 </Col>
             </Row>

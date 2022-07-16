@@ -1,5 +1,3 @@
-import React, { Component } from 'react';
-
 import Stack from 'react-bootstrap/Stack'
 import Card from 'react-bootstrap/Card';
 

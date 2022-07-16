@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import NavEBI from '../../components/nav/Nav';
 import HomeInfo from '../../components/homeInfo/HomeInfo';
 
