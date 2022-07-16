@@ -7,8 +7,6 @@ import './DataHeatMapHeader.css'
 import { DataObject } from '../../helpers/interfaces'
 
 const DataHeatMapHeader = (props: {diagnosisHeaders: Array<DataObject>}) => {
-
-    const [diagnosisHeaders, setDiagnosisHeaders] = React.useState(props.diagnosisHeaders);
     const [gridFragments, setGridFragments] = React.useState(() => {
         let rowFragments: String = "";
         for (let i = 0; i < props.diagnosisHeaders.length; i++) {
@@ -34,7 +32,7 @@ const DataHeatMapHeader = (props: {diagnosisHeaders: Array<DataObject>}) => {
         <div className='dataHeatMapHeaders'>
             <Row style={rowStyle} >
                 {
-                    diagnosisHeaders.map((diagnosis: DataObject, d:number) => {
+                    props.diagnosisHeaders.map((diagnosis: DataObject, d:number) => {
                         return (
                             <Col key={d} style={{ backgroundColor: headerColors[d] }}>
                                 <div className='diagnosisContent'>

@@ -62,9 +62,6 @@ export default class DataView extends Component {
     sortModels = (a: DataObject, b: DataObject) => {
         var aValue: number = parseInt(a["model_id"].substring(1));
         var bValue: number = parseInt(b["model_id"].substring(1));
-        console.log(a["model_id"])
-        console.log(b["model_id"])
-        console.log(aValue - bValue)
         return aValue - bValue;
         // console.log(a["model_id"].localeCompare(b["model_id"]))
         // return a["model_id"].localeCompare(b["model_id"]);
