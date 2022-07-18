@@ -19,7 +19,21 @@ git clone https://github.com/ivangutierrezr/ebi02032-technical-task.git
 
 ```
 npm install
+```
+
+For run as production server:
+
+```
+npm run build
 npm start
 ```
+
+For run as development server:
+
+```
+npm run-dev
+```
+
+An Express server has been added for serve this app. If you want to work in development
 
 The selected tool for executing the CI is Circle CI
