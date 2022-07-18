@@ -25,8 +25,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
-    "start": "react-scripts start",
-    "heroku-postbuild": "react-scripts start"
+    "start": "node server.js"
   },
   "eslintConfig": {
     "extends": [
@@ -45,6 +44,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "heroku-run-build-script": true
+  }
 }
