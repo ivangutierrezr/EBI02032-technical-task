@@ -28,10 +28,10 @@ npm run build
 npm start
 ```
 
-For run as development server:
+For run as developer:
 
 ```
-npm run-dev
+npm run dev
 ```
 
 An Express server has been added for serve this app. If you want to work in development
