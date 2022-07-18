@@ -37,3 +37,5 @@ npm run dev
 An Express server has been added for serve this app. If you want to work in development
 
 The selected tool for executing the CI is Circle CI
+
+Visit: https://ebi02032-technical-task.herokuapp.com for live demo of this app.

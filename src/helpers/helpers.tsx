@@ -28,6 +28,7 @@ function buildHeatMapByFilters(orderedDataSet: Array<DataObject>, optionGenes: a
         }
         if (pushGene == true) {
             let dataGene: Array<HeatMapGeneItem> = [];
+            let averageGeneScore: number = getAverageGeneZScore(dataSetItem["diagnoses"]);
             for (let j = 0; j < dataSetItem["diagnoses"].length; j++) {
                 const diagnosis = dataSetItem["diagnoses"][j];
                 let pushDiagnosis: Boolean = true;
@@ -38,7 +39,7 @@ function buildHeatMapByFilters(orderedDataSet: Array<DataObject>, optionGenes: a
                     }
                 }
                 if (pushDiagnosis == true) {
-                    dataGene = dataGene.concat(buildHeatMapGeneDiagnosisItem(diagnosis, gene_symbol))
+                    dataGene = dataGene.concat(buildHeatMapGeneDiagnosisItem(diagnosis, gene_symbol, averageGeneScore))
                 }
             }
             let objGene: HeatMapItem = {
@@ -59,18 +60,7 @@ function buildHeatMapByRange(orderedDataSet: Array<DataObject>, rangeFilterValue
     for (let i = 0; i < orderedDataSet.length; i++) {
         const dataSetItem = orderedDataSet[i];
         let gene_symbol = dataSetItem["gene_symbol"];
-        let averageGeneScore: number = 0;
-        let totalGeneScores: number = 0;
-        let totalModelSum: number = 0;
-        for (let j = 0; j < dataSetItem["diagnoses"].length; j++) {
-            const diagnosis = dataSetItem["diagnoses"][j];
-            for (let k = 0; k < diagnosis["models"].length; k++) {
-                const model = diagnosis["models"][k];
-                totalGeneScores += (model["z_score"] / model["total_scores"]);
-                totalModelSum += 1;
-            }
-        }
-        averageGeneScore = parseFloat((totalGeneScores / totalModelSum).toFixed(3))
+        let averageGeneScore: number = getAverageGeneZScore(dataSetItem["diagnoses"]);
         if (averageGeneScore > maxAverage) {
             maxAverage = averageGeneScore;
         } else {
@@ -90,12 +80,13 @@ function buildHeatMapByRange(orderedDataSet: Array<DataObject>, rangeFilterValue
     for (let j = 0; j < averages.length; j++) {
         const averageGeneItem = averages[j];
         if (averageGeneItem["averageGeneScore"] >= targetPerceptileValue) {
+            let averageGeneScore: number = averageGeneItem["averageGeneScore"];
             const dataSetItem = orderedDataSet[averageGeneItem["dataSetPosition"]];
             let gene_symbol = dataSetItem["gene_symbol"];
             let dataGene: Array<HeatMapGeneItem> = [];
             for (let j = 0; j < dataSetItem["diagnoses"].length; j++) {
                 const diagnosis = dataSetItem["diagnoses"][j];
-                dataGene = dataGene.concat(buildHeatMapGeneDiagnosisItem(diagnosis, gene_symbol))
+                dataGene = dataGene.concat(buildHeatMapGeneDiagnosisItem(diagnosis, gene_symbol, averageGeneScore))
             }
             let objGene: HeatMapItem = {
                 "id": gene_symbol,
@@ -108,7 +99,22 @@ function buildHeatMapByRange(orderedDataSet: Array<DataObject>, rangeFilterValue
     return dataHeatMap;
 }
 
-function buildHeatMapGeneDiagnosisItem(diagnosis: any, gene_symbol: string) {
+function getAverageGeneZScore(diagnoses: any) {
+    let totalGeneScores: number = 0;
+    let totalModelSum: number = 0;
+    for (let j = 0; j < diagnoses.length; j++) {
+        const diagnosis = diagnoses[j];
+        for (let k = 0; k < diagnosis["models"].length; k++) {
+            const model = diagnosis["models"][k];
+            totalGeneScores += (model["z_score"] / model["total_scores"]);
+            totalModelSum += 1;
+        }
+    }
+    let averageGeneScore: number = parseFloat((totalGeneScores / totalModelSum).toFixed(3))
+    return averageGeneScore;
+}
+
+function buildHeatMapGeneDiagnosisItem(diagnosis: any, gene_symbol: string, averageGeneScore: number) {
     let dataGene: Array<HeatMapGeneItem> = [];
     for (let k = 0; k < diagnosis["models"].length; k++) {
         const model = diagnosis["models"][k];
@@ -116,6 +122,7 @@ function buildHeatMapGeneDiagnosisItem(diagnosis: any, gene_symbol: string) {
             "x": model["model_id"],
             "y": parseFloat((model["z_score"] / model["total_scores"]).toFixed(3)),
             "gene_symbol": gene_symbol,
+            "gene_z_score_avg": averageGeneScore,
             "diagnosis": diagnosis["diagnosis"],
             "chromosome": model["chromosome"],
             "seq_start_position": model["seq_start_position"],

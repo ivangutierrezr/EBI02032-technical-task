@@ -78,7 +78,8 @@ const DataHeatMap = (props: { heatMapData: Array<HeatMapItem>, diagnosisHeaders:
                     <ul>
                         <li>gene_symbol: {data.cell.data.gene_symbol}</li>
                         <li>model_id: {data.cell.data.x}</li>
-                        <li>z_score_avg: {data.cell.data.y}</li>
+                        <li>model_z_score_avg: {data.cell.data.y}</li>
+                        <li>gene_z_score_avg: {data.cell.data.gene_z_score_avg}</li>
                         <li>diagnosis: {data.cell.data.diagnosis}</li>
                         <li>chromosome: {data.cell.data.chromosome}</li>
                         <li>seq_start_position: {data.cell.data.seq_start_position}</li>

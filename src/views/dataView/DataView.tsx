@@ -113,7 +113,6 @@ export default class DataView extends Component {
                     if (indexModel === -1) {
                         orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"].push(objModel);
                         orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"] = orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"].sort(this.sortModels)
-                        console.log(orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"])
                     } else {
                         orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"][indexModel]["z_score"] += tmpData["z_score"];
                         orderedDataSet[indexData]["diagnoses"][indexDiagnosis]["models"][indexModel]["total_scores"] += 1;
@@ -122,7 +121,6 @@ export default class DataView extends Component {
             }
         }
 
-        console.log(orderedDataSet)
         this.setState({
             orderedDataSet: orderedDataSet,
             genesFilter: genesFilter,
@@ -132,10 +130,11 @@ export default class DataView extends Component {
     }
 
     buildDataHeatMap = (orderedDataSet: Array<DataObject>, rangeFilterValue: any, optionGenes: any, optionDiagnosis: any) => {
+        
         let heatMapData: Array<HeatMapItem> = buildHeatMapData(orderedDataSet, rangeFilterValue, optionGenes, optionDiagnosis);
         let diagnosisHeaders: Array<DataObject> = buildDiagnosisHeaders(orderedDataSet, rangeFilterValue, optionGenes, optionDiagnosis);
-        let minValue: number = getMaxValue(heatMapData);
-        let maxValue: number = getMinValue(heatMapData);
+        let minValue: number = getMinValue(heatMapData);
+        let maxValue: number = getMaxValue(heatMapData);
         this.setState({
             heatMapData: heatMapData,
             diagnosisHeaders: diagnosisHeaders,
