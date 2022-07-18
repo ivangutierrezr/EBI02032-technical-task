@@ -1,3 +1,5 @@
+![CircleCI](https://circleci.com/gh/ivangutierrezr/ebi02032-technical-task.svg?style=svg)
+
 # EBI02032-technical-task
 Web Developer (EBI02032) – Technical task
 
@@ -15,8 +17,9 @@ git clone https://github.com/ivangutierrezr/ebi02032-technical-task.git
 
 2. Go into ebi02032-technical-task folder and run this commands:
 
+```
 npm install
-
 npm start
+```
 
-Project must be working now.
+The selected tool for executing the CI is Circle CI
